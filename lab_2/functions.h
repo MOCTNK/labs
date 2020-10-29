@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>;
 
-void toString(int number, char *&str);
+char* toString(int number);
 void increaseSize(char *&str);
 void concatenation(char *&str1, char *str2);

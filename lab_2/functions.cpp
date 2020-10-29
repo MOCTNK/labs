@@ -1,9 +1,10 @@
 #include "functions.h";
 
-void toString(int number, char *&str) {
+char* toString(int number) {
 	int size = 0;
 	int sign = 0;
 	char minus[2] = "-";
+	char *str = new char[1];
 	if (number < 0) {
 		sign = 1;
 		number *= -1;
@@ -31,6 +32,8 @@ void toString(int number, char *&str) {
 		str[i] = str[size - 1 - i];
 		str[size - 1 - i] = t;
 	}
+
+	return str;
 }
 
 void increaseSize(char *&str) {
