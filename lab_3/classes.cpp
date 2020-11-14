@@ -1,4 +1,5 @@
 #include "classes.h";
+#include <iostream>;
 
 Fraction::Fraction() {
 	set(1, 1);
@@ -27,13 +28,10 @@ void Fraction::set(int get_numerator, int get_denominator) {
 		reduction();
 
 		char *str1 = toString(numerator);
-
-		if (denominator != 1) {
-			char *str2 = toString(denominator);
-			char str3[2] = "/";
-			concatenation(str1, str3);
-			concatenation(str1, str2);
-		}
+		char *str2 = toString(denominator);
+		char str3[2] = "/";
+		concatenation(str1, str3);
+		concatenation(str1, str2);
 
 		text = str1;
 	}
@@ -139,4 +137,72 @@ Fraction operator - (int num, Fraction a) {
 Fraction::operator float() {
 	float a = (float)numerator / (float)denominator;
 	return a;
+}
+
+std::ofstream &operator << (std::ofstream &fout, Fraction a) {
+	fout << a.getText();
+	return fout;
+}
+
+std::ifstream &operator >> (std::ifstream &fin, Fraction &a) {
+	char* str = new char;
+	fin >> str;
+	a = str;
+	return fin;
+}
+
+std::ostream &operator << (std::ostream &out, Fraction a) {
+	out << a.getText();
+	return out;
+}
+
+std::istream &operator >> (std::istream &in, Fraction &a) {
+	char* str = new char;
+	in >> str;
+	a = str;
+	return in;
+}
+
+void Fraction::write(std::ofstream &fout) {
+	 fout.write((char *)&text, sizeof(text));
+}
+
+void Fraction::read(std::ifstream &fin) {
+	char* str;
+	fin.read((char *)&str, sizeof(str));
+	char* num = new char[1];
+	char* den = new char[1];
+	disassemble(str, num, den);
+	set(atoi(num), atoi(den));
+}
+
+void Fraction::increaseSize(char *&str) {
+	int size = strlen(str) + 1;
+	char *newStr = new char[size + 1];
+	for (int i = 0; i < size; i++) {
+		newStr[i] = str[i];
+	}
+	delete[] str;
+	str = newStr;
+}
+
+void Fraction::disassemble(char *str, char *str1, char *str2) {
+	int k = 0;
+	for (int i = 0, j = 0; i < strlen(str); i++, j++) {
+		if (str[i] == '/') {
+			j = -1;
+			k = 1;
+			continue;
+		}
+		if (k == 0) {
+			increaseSize(str1);
+			str1[j] = str[i];
+			str1[j + 1] = '\0';
+		}
+		else {
+			increaseSize(str2);
+			str2[j] = str[i];
+			str2[j + 1] = '\0';
+		}
+	}
 }

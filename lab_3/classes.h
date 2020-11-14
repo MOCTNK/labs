@@ -1,5 +1,7 @@
-#pragma once
+#pragma once;
 #include "functions.h";
+#include <iostream>;
+#include <fstream>;
 
 class Fraction {
 public:
@@ -12,6 +14,12 @@ public:
 	friend Fraction operator + (int num, Fraction a);
 	friend Fraction operator - (Fraction a, int num);
 	friend Fraction operator - (int num, Fraction a);
+	friend std::ofstream &operator << (std::ofstream &fout, Fraction a);
+	friend std::ifstream &operator >> (std::ifstream &fin, Fraction &a);
+	friend std::ostream &operator << (std::ostream &out, Fraction a);
+	friend std::istream &operator >> (std::istream &in, Fraction &a);
+	void write(std::ofstream &fout);
+	void read(std::ifstream &fin);
 	operator float();
 	static int count;
 	void set(int get_numerator, int get_denominator);
@@ -27,4 +35,6 @@ private:
 	int denominator;
 	char* text;
 	void reduction();
+	void increaseSize(char *&str);
+	void disassemble(char *str, char *str1, char *str2);
 };
