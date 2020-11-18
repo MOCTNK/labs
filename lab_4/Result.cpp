@@ -1,11 +1,11 @@
 #include "Result.h";
 
 Result::Result() : Fraction() {
-	result = getText();
+	result = 1;
 }
 
 Result::Result(int numerator, int denominator) : Fraction(numerator, denominator) {
-	result = getText();
+	result = (double)numerator / (double)denominator;
 }
 
 Result::Result(Result &a) {
@@ -13,7 +13,7 @@ Result::Result(Result &a) {
 }
 
 Result::Result(Fraction &a) : Fraction(a) {
-	result = getText();
+	result = (double)getNumerator() / (double)getDenominator();
 }
 
 Result::Result(Mixed &a) {
@@ -26,36 +26,41 @@ Result::Result(Mixed &a) {
 	set(sign * (w * a.getDenominator() + a.getNumerator()), a.getDenominator());
 }
 
+Result &Result::operator = (const char* str) { 
+	Fraction::operator=(str);
+	result = (double)getNumerator() / (double)getDenominator();
+	return *this;
+}
 
-Result &Result::operator + (Result b) {
+Result Result::operator + (Result b) {
 	this->add(b);
 	return *this;
 }
 
-Result &Result::operator - (Result b) {
+Result Result::operator - (Result b) {
 	this->add(b);
 	return *this;
 }
 
-Result &operator + (Result &a, int num) {
+Result operator + (Result &a, int num) {
 	Result b(num, 1);
 	a.add(b);
 	return a;
 }
 
-Result &operator + (int num, Result &a) {
+Result operator + (int num, Result &a) {
 	Result b(num, 1);
 	a.add(b);
 	return a;
 }
 
-Result &operator - (Result &a, int num) {
+Result operator - (Result &a, int num) {
 	Result b(num, 1);
 	a.subtract(b);
 	return a;
 }
 
-Result &operator - (int num, Result &a) {
+Result operator - (int num, Result &a) {
 	Result b(num, 1);
 	a.subtract(b);
 	return a;
@@ -64,31 +69,25 @@ Result &operator - (int num, Result &a) {
 
 void Result::set(int numerator, int denominator) {
 	Fraction::set(numerator, denominator);
-	result = getText();
+	result = (double)numerator / (double)denominator;
 }
 
 void Result::add(Result b) {
-	Result a;
-	a.set((getNumerator() * b.getDenominator()) + (getDenominator() * b.getNumerator()),
-		  getDenominator() * b.getDenominator());
-	result = a.getText();
+	Fraction::add(b);
+	result = (double)getNumerator() / (double)getDenominator();
 }
 
 void Result::subtract(Result b) {
-	Result a;
-	a.set((getNumerator() * b.getDenominator()) - (getDenominator() * b.getNumerator()),
-		getDenominator() * b.getDenominator());
-	result = a.getText();
+	Fraction::subtract(b);
+	result = (double)getNumerator() / (double)getDenominator();
 }
 
 void Result::multiply(Result b) {
-	Result a;
-	a.set(getNumerator() * b.getNumerator(), getDenominator() * b.getDenominator());
-	result = a.getText();
+	Fraction::multiply(b);
+	result = (double)getNumerator() / (double)getDenominator();
 }
 
 void Result::divide(Result b) {
-	Result a;
-	a.set(getNumerator() * b.getDenominator(), getDenominator() * b.getNumerator());
-	result = a.getText();
+	Fraction::divide(b);
+	result = (double)getNumerator() / (double)getDenominator();
 }

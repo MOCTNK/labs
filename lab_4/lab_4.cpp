@@ -99,5 +99,6 @@ int main()
 		cout << c.getText() << " != " << d.getText() << endl;
 		cout << "Constructor Result to Result test completed failed" << endl;
 	}
+	cout << endl;
 	return 0;
 }

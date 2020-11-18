@@ -9,18 +9,19 @@ public:
 	Result(Result &a);
 	Result(Fraction &a);
 	Result(Mixed &a);
-	Result &operator + (Result b);
-	Result &operator - (Result b);
-	friend Result &operator + (Result &a, int num);
-	friend Result &operator + (int num, Result &a);
-	friend Result &operator - (Result &a, int num);
-	friend Result &operator - (int num, Result &a);
+	Result &operator = (const char* str);
+	Result operator + (Result b);
+	Result operator - (Result b);
+	friend Result operator + (Result &a, int num);
+	friend Result operator + (int num, Result &a);
+	friend Result operator - (Result &a, int num);
+	friend Result operator - (int num, Result &a);
 	void set(int numerator, int denominator);
 	void add(Result a);
 	void subtract(Result b);
 	void multiply(Result b);
 	void divide(Result b);
-	char *getResult() { return result; };
+	double getResult() { return result; };
 private:
-	char *result;
+	double result;
 };
