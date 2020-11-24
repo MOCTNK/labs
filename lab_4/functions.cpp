@@ -1,39 +1,48 @@
 #include "functions.h";
 
 char* toString(int number) {
-	int size = 0;
-	int sign = 0;
-	char minus[2] = "-";
-	char *str = new char[1];
-	if (number < 0) {
-		sign = 1;
-		number *= -1;
+	
+	if (number == 0) {
+		char *str = new char[2];
+		str[0] = '0';
+		str[1] = '\0';
+		return str;
 	}
-	for (int i = 0;; i++) {
-		if (number == 0) {
-			break;
+	else {
+		int size = 0;
+		int sign = 0;
+		char minus[2] = "-";
+		char *str = new char[1];
+		if (number < 0) {
+			sign = 1;
+			number *= -1;
 		}
-		else {
-			increaseSize(str);
-			str[i] = (number % 10) + '0';
-			str[i + 1] = '\0';
-			number /= 10;
+		for (int i = 0;; i++) {
+			if (number == 0) {
+				break;
+			}
+			else {
+				increaseSize(str);
+				str[i] = (number % 10) + '0';
+				str[i + 1] = '\0';
+				number /= 10;
+				size++;
+			}
+		}
+
+		if (sign == 1) {
+			concatenation(str, minus);
 			size++;
 		}
-	}
 
-	if (sign == 1) {
-		concatenation(str, minus);
-		size++;
-	}
+		for (int i = 0; i < size / 2; i++) {
+			int t = str[i];
+			str[i] = str[size - 1 - i];
+			str[size - 1 - i] = t;
+		}
 
-	for (int i = 0; i < size / 2; i++) {
-		int t = str[i];
-		str[i] = str[size - 1 - i];
-		str[size - 1 - i] = t;
+		return str;
 	}
-
-	return str;
 }
 
 void increaseSize(char *&str) {

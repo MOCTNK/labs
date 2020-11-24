@@ -1,4 +1,4 @@
-#include "classes.h";
+#include "Fraction.h";
 #include <iostream>;
 
 Fraction::Fraction() {
@@ -7,6 +7,10 @@ Fraction::Fraction() {
 
 Fraction::Fraction(int get_numerator, int get_denominator) {
 	set(get_numerator, get_denominator);
+}
+
+Fraction::Fraction(Fraction &a) {
+	set(a.getNumerator(), a.getDenominator());
 }
 
 int Fraction::count = 0;
@@ -24,8 +28,9 @@ void Fraction::set(int get_numerator, int get_denominator) {
 		}
 		else {
 			denominator = get_denominator;
+			reduction();
 		}
-		reduction();
+
 
 		char *str1 = toString(numerator);
 		char *str2 = toString(denominator);
@@ -164,7 +169,7 @@ std::istream &operator >> (std::istream &in, Fraction &a) {
 }
 
 void Fraction::write(std::ofstream &fout) {
-	 fout.write((char *)&text, sizeof(text));
+	fout.write((char *)&text, sizeof(text));
 }
 
 void Fraction::read(std::ifstream &fin) {
@@ -174,35 +179,4 @@ void Fraction::read(std::ifstream &fin) {
 	char* den = new char[1];
 	disassemble(str, num, den);
 	set(atoi(num), atoi(den));
-}
-
-void Fraction::increaseSize(char *&str) {
-	int size = strlen(str) + 1;
-	char *newStr = new char[size + 1];
-	for (int i = 0; i < size; i++) {
-		newStr[i] = str[i];
-	}
-	delete[] str;
-	str = newStr;
-}
-
-void Fraction::disassemble(char *str, char *str1, char *str2) {
-	int k = 0;
-	for (int i = 0, j = 0; i < strlen(str); i++, j++) {
-		if (str[i] == '/') {
-			j = -1;
-			k = 1;
-			continue;
-		}
-		if (k == 0) {
-			increaseSize(str1);
-			str1[j] = str[i];
-			str1[j + 1] = '\0';
-		}
-		else {
-			increaseSize(str2);
-			str2[j] = str[i];
-			str2[j + 1] = '\0';
-		}
-	}
 }
