@@ -1,7 +1,6 @@
 #include "functions.h";
 
 char* toString(int number) {
-	
 	if (number == 0) {
 		char *str = new char[2];
 		str[0] = '0';
@@ -55,11 +54,6 @@ void increaseSize(char *&str) {
 	str = newStr;
 }
 
-int random(const int min, const int max) {
-	return rand() % (max - min + 1) + min;
-}
-
-
 void concatenation(char *&str1, char *str2) {
 	for (int i = strlen(str1), j = 0;; i++, j++) {
 		if (str2[j] == '\0') {
@@ -68,26 +62,5 @@ void concatenation(char *&str1, char *str2) {
 		increaseSize(str1);
 		str1[i] = str2[j];
 		str1[i + 1] = '\0';
-	}
-}
-
-void disassemble(char *str, char *str1, char *str2) {
-	int k = 0;
-	for (int i = 0, j = 0; i < strlen(str); i++, j++) {
-		if (str[i] == '/') {
-			j = -1;
-			k = 1;
-			continue;
-		}
-		if (k == 0) {
-			increaseSize(str1);
-			str1[j] = str[i];
-			str1[j + 1] = '\0';
-		}
-		else {
-			increaseSize(str2);
-			str2[j] = str[i];
-			str2[j + 1] = '\0';
-		}
 	}
 }
