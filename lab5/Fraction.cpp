@@ -1,84 +1,66 @@
 #include "Fraction.h";
+#include <iostream>;
 
 Fraction::Fraction() {
-	//set(1, 1);
+	set(1, 1);
 }
 
 Fraction::Fraction(int get_numerator, int get_denominator) {
 	set(get_numerator, get_denominator);
 }
 
+Fraction::Fraction(Fraction &a) {
+	set(a.getNumerator(), a.getDenominator());
+}
+
 int Fraction::count = 0;
 
 void Fraction::set(int get_numerator, int get_denominator) {
-	if (get_numerator < 2147483647 and get_numerator > -2147483647 and get_denominator < 2147483647 and get_denominator > -2147483647) {
-		if (get_denominator != 0) {
-			count++;
-			if (get_denominator < 0) {
-				get_numerator *= -1;
-				get_denominator *= -1;
-			}
-			numerator = get_numerator;
-			if (get_numerator == 0) {
-				denominator = 1;
-			}
-			else {
-				denominator = get_denominator;
-				reduction();
-			}
-
-
-			char *str1 = toString(numerator);
-			char *str2 = toString(denominator);
-			char str3[2] = "/";
-			concatenation(str1, str3);
-			concatenation(str1, str2);
-
-			text = str1;
+	if (get_denominator != 0) {
+		count++;
+		if (get_denominator < 0) {
+			get_numerator *= -1;
+			get_denominator *= -1;
+		}
+		numerator = get_numerator;
+		if (get_numerator == 0) {
+			denominator = 1;
 		}
 		else {
-			throw std::exception("Error! The denominator is zero");
+			denominator = get_denominator;
+			reduction();
 		}
-	}
-	else {
-		throw std::exception("Error! Values out of range");
+
+		char *str1 = toString(numerator);
+		char *str2 = toString(denominator);
+		if (text) {
+			delete[] text;
+		}
+		char str3[2] = "/";
+		concatenation(str1, str3);
+		concatenation(str1, str2);
+
+		text = new char[strlen(str1)];
+		strcpy(text, str1);
+		increaseSize(text);
+		text[strlen(str1)] = '\0';
 	}
 }
 
 void Fraction::add(Fraction b) {
-	if (b.getNumerator() != NULL) {
-		set((numerator * b.denominator) + (denominator * b.numerator), denominator * b.denominator);
-	}
-	else {
-		throw std::exception("Error! Object not set");
-	}
+	set((numerator * b.denominator) + (denominator * b.numerator), denominator * b.denominator);
 }
 
 void Fraction::subtract(Fraction b) {
-	if (b.getNumerator() != NULL) {
-		set((numerator * b.denominator) - (denominator * b.numerator), denominator * b.denominator);
-	}
-	else {
-		throw std::exception("Error! Object not set");
-	}
+	set((numerator * b.denominator) - (denominator * b.numerator), denominator * b.denominator);
 }
 
 void Fraction::multiply(Fraction b) {
-	if (b.getNumerator() != NULL) {
-		set(numerator * b.numerator, denominator * b.denominator);
-	}
-	else {
-		throw std::exception("Error! Object not set");
-	}
+	set(numerator * b.numerator, denominator * b.denominator);
 }
 
 void Fraction::divide(Fraction b) {
-	if (b.getNumerator() != NULL) {
-		set(numerator * b.denominator, denominator * b.numerator);
-	}
-	else {
-		throw std::exception("Error! Object not set");
-	}
+	set(numerator * b.denominator, denominator * b.numerator);
 }
 
 void Fraction::reduction() {
@@ -165,4 +147,47 @@ Fraction operator - (int num, Fraction a) {
 Fraction::operator float() {
 	float a = (float)numerator / (float)denominator;
 	return a;
+}
+
+std::ofstream &operator << (std::ofstream &fout, Fraction a) {
+	fout << a.getText();
+	return fout;
+}
+
+std::ifstream &operator >> (std::ifstream &fin, Fraction &a) {
+	char* str = new char;
+	fin >> str;
+	a = str;
+	return fin;
+}
+
+std::ostream &operator << (std::ostream &out, Fraction a) {
+	out << a.getText();
+	return out;
+}
+
+std::istream &operator >> (std::istream &in, Fraction &a) {
+	char* str = new char;
+	in >> str;
+	a = str;
+	return in;
+}
+
+void Fraction::write(std::ofstream &fout) {
+	fout.write((char *)&text, sizeof(text));
+}
+
+void Fraction::read(std::ifstream &fin) {
+	char* str;
+	fin.read((char *)&str, sizeof(str));
+	char* num = new char[1];
+	char* den = new char[1];
+	disassemble(str, num, den);
+	set(atoi(num), atoi(den));
+}
+
+Fraction::~Fraction() {
+	if (text) {
+		delete[] text;
+	}
 }

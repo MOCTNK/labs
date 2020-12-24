@@ -7,6 +7,7 @@ class Fraction {
 public:
 	Fraction();
 	Fraction(int get_numerator, int get_denominator);
+	Fraction(Fraction &a);
 	Fraction &operator = (const char* str);
 	Fraction operator + (Fraction b);
 	Fraction operator - (Fraction b);
@@ -29,12 +30,11 @@ public:
 	void divide(Fraction b);
 	int getNumerator() { return numerator; };
 	int getDenominator() { return denominator; };
-	char *getText() { return text; };
+	virtual char *getText() { return text; };
+	~Fraction();
 private:
 	int numerator;
 	int denominator;
 	char* text;
 	void reduction();
-	void increaseSize(char *&str);
-	void disassemble(char *str, char *str1, char *str2);
 };
