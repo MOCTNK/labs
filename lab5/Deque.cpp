@@ -1,6 +1,6 @@
 #include "Deque.h";
 
-void Deque::getDeque() {
+void Deque::printDeque() {
 	cout << "Deque: ";
 	if (count != 0) {
 		Element *e = front;

@@ -12,11 +12,7 @@ class Deque {
 		Fraction *obj;
 	};
 public:
-	Element *front = NULL;
-	Element *back = NULL;
-	int count = 0;
-
-	void getDeque();
+	void printDeque();
 	void pushFront(Fraction *a);
 	void pushBack(Fraction *a);
 	void popFront();
@@ -24,4 +20,8 @@ public:
 	Fraction *getFront() { return front->obj; };
 	Fraction *getBack() { return back->obj; };
 	~Deque();
+private:
+	Element *front = NULL;
+	Element *back = NULL;
+	int count = 0;
 };

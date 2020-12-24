@@ -18,7 +18,7 @@ int main()
 		cout << "Push front Fraction test completed failed" << endl;
 	}
 
-	A.getDeque();
+	A.printDeque();
 	cout << endl;
 
 	if (testPushFrontMixed(A, b)) {
@@ -28,7 +28,7 @@ int main()
 		cout << "Push front Mixed test completed failed" << endl;
 	}
 
-	A.getDeque();
+	A.printDeque();
 	cout << endl;
 	Fraction c(66, 105);
 	Mixed d(9, 5, 2);
@@ -40,7 +40,7 @@ int main()
 		cout << "Push back Mixed test completed failed" << endl;
 	}
 
-	A.getDeque();
+	A.printDeque();
 	cout << endl;
 
 	if (testPushBackFraction(A, c)) {
@@ -50,7 +50,7 @@ int main()
 		cout << "Push back Fraction test completed failed" << endl;
 	}
 
-	A.getDeque();
+	A.printDeque();
 	cout << endl;
 
 	if (testPopFront(A)) {
@@ -60,7 +60,7 @@ int main()
 		cout << "Pop front test completed failed" << endl;
 	}
 
-	A.getDeque();
+	A.printDeque();
 	cout << endl;
 
 	if (testClearDeque(A)) {
@@ -70,7 +70,7 @@ int main()
 		cout << "Clear deque test completed failed" << endl;
 	}
 
-	A.getDeque();
+	A.printDeque();
 	cout << endl;
 	return 0;
 }
